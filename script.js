@@ -1,6 +1,41 @@
 const menuToggle = document.querySelector('.menu-toggle');
 const primaryNav = document.querySelector('#primary-nav');
 
+const heroSlides = Array.from(document.querySelectorAll('.hero-slide'));
+const heroIndicators = Array.from(document.querySelectorAll('.hero-indicator'));
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+let heroTimer;
+
+function showHeroSlide(index) {
+    heroSlides.forEach((slide, slideIndex) => {
+        const isActive = slideIndex === index;
+        slide.classList.toggle('is-active', isActive);
+        heroIndicators[slideIndex].classList.toggle('is-active', isActive);
+        heroIndicators[slideIndex].setAttribute('aria-pressed', String(isActive));
+    });
+}
+
+// Pause autoplay for reduced motion and while the page is in a background tab.
+function startHeroTimer() {
+    window.clearInterval(heroTimer);
+    if (reducedMotion.matches || document.hidden) return;
+
+    heroTimer = window.setInterval(() => {
+        const activeIndex = heroSlides.findIndex((slide) => slide.classList.contains('is-active'));
+        showHeroSlide((activeIndex + 1) % heroSlides.length);
+    }, 5000);
+}
+
+heroIndicators.forEach((indicator, index) => {
+    indicator.addEventListener('click', () => {
+        showHeroSlide(index);
+        startHeroTimer();
+    });
+});
+
+document.addEventListener('visibilitychange', startHeroTimer);
+startHeroTimer();
+
 menuToggle.addEventListener('click', () => {
     const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
     menuToggle.setAttribute('aria-expanded', String(!isExpanded));

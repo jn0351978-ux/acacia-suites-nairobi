@@ -31,8 +31,13 @@
 
     <main>
         <section class="hero" id="home" aria-labelledby="hero-title">
-            <div class="hero-image" role="img" aria-label="Sunlit, contemporary apartment living room"></div>
-            <div class="hero-shade"></div>
+            <div class="hero-slider" aria-hidden="true">
+                <div class="hero-slide hero-slide-living is-active"></div>
+                <div class="hero-slide hero-slide-bedroom"></div>
+                <div class="hero-slide hero-slide-kitchen"></div>
+                <div class="hero-slide hero-slide-balcony"></div>
+            </div>
+            <div class="hero-overlay"></div>
             <div class="hero-content">
                 <p class="eyebrow light-eyebrow"><span></span> A MORE CONSIDERED STAY · NAIROBI</p>
                 <h1 id="hero-title">Settle in.<br>Stay <em>a while.</em></h1>
@@ -43,6 +48,12 @@
                 </div>
             </div>
             <div class="hero-note"><span class="note-line"></span> YOUR OWN PACE, IN THE HEART OF NAIROBI</div>
+            <div class="hero-indicators" role="group" aria-label="Choose a hero image">
+                <button class="hero-indicator is-active" type="button" aria-label="Show living room image" aria-pressed="true"></button>
+                <button class="hero-indicator" type="button" aria-label="Show bedroom image" aria-pressed="false"></button>
+                <button class="hero-indicator" type="button" aria-label="Show kitchen image" aria-pressed="false"></button>
+                <button class="hero-indicator" type="button" aria-label="Show balcony image" aria-pressed="false"></button>
+            </div>
             <a class="scroll-cue" href="#welcome" aria-label="Scroll to discover"><span></span></a>
         </section>
 
