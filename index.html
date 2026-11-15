@@ -157,6 +157,40 @@
                             <option value="4">4 guests</option>
                         </select>
                     </label>
+                    <div class="perks-groups">
+                        <fieldset class="perks-group">
+                            <legend>Complimentary Corporate Essentials</legend>
+                            <p class="perks-caption">Included with every stay</p>
+                            <label class="perk-option perk-included"><input type="checkbox" checked disabled><span class="perk-name">24/7 Solar &amp; Inverter Backup Power</span><span class="perk-status">Included</span></label>
+                            <label class="perk-option perk-included"><input type="checkbox" checked disabled><span class="perk-name">Dedicated 100 Mbps Fiber + Starlink Wi-Fi</span><span class="perk-status">Included</span></label>
+                            <label class="perk-option perk-included"><input type="checkbox" checked disabled><span class="perk-name">Mid-Week Housekeeping &amp; Linen Refresh</span><span class="perk-status">Included</span></label>
+                        </fieldset>
+                        <fieldset class="perks-group">
+                            <legend>Optional Paid Add-Ons</legend>
+                            <label class="perk-option">
+                                <input type="checkbox" name="addons" value="airport" data-addon data-addon-name="JKIA Airport Chauffeur Pickup" data-kes="3500">
+                                <span class="perk-name">JKIA Airport Chauffeur Pickup <small>One-way</small></span>
+                                <span class="addon-price" data-kes="3500">KES 3,500</span>
+                            </label>
+                            <label class="perk-option">
+                                <input type="checkbox" name="addons" value="welcome-pack" data-addon data-addon-name="Welcome Grocery &amp; Breakfast Starter Pack" data-kes="4500">
+                                <span class="perk-name">Welcome Grocery &amp; Breakfast Starter Pack</span>
+                                <span class="addon-price" data-kes="4500">KES 4,500</span>
+                            </label>
+                            <label class="perk-option">
+                                <input type="checkbox" name="addons" value="laundry" data-addon data-addon-name="Private Laundry &amp; Ironing Service" data-kes="2000" data-billing="weekly">
+                                <span class="perk-name">Private Laundry &amp; Ironing Service <small>Per week</small></span>
+                                <span class="addon-price" data-kes="2000">KES 2,000 / week</span>
+                            </label>
+                        </fieldset>
+                    </div>
+                    <div class="quote-breakdown" aria-live="polite" aria-atomic="true">
+                        <span class="quote-title">ITEMIZED QUOTE</span>
+                        <div class="quote-row"><span>Base stay</span><strong id="quote-subtotal">—</strong></div>
+                        <div class="quote-row"><span>Long-stay discount</span><strong id="quote-discount">—</strong></div>
+                        <div class="quote-addon-lines" id="quote-addon-lines"></div>
+                        <div class="quote-row quote-addon-total"><span>Add-ons subtotal</span><strong id="quote-addons-total">—</strong></div>
+                    </div>
                     <div class="estimate" aria-live="polite" aria-atomic="true">
                         <div class="estimate-copy"><span class="estimate-label">YOUR ESTIMATED TOTAL</span><span class="estimate-hint" id="estimate-hint">Choose your dates to see your stay total.</span></div>
                         <strong id="estimate-total">—</strong>

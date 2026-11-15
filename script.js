@@ -109,6 +109,11 @@ const guestCount = document.querySelector('#guest-count');
 const estimateTotal = document.querySelector('#estimate-total');
 const estimateHint = document.querySelector('#estimate-hint');
 const bookingNote = document.querySelector('#booking-note');
+const addonCheckboxes = Array.from(document.querySelectorAll('[data-addon]'));
+const quoteSubtotal = document.querySelector('#quote-subtotal');
+const quoteDiscount = document.querySelector('#quote-discount');
+const quoteAddonLines = document.querySelector('#quote-addon-lines');
+const quoteAddonsTotal = document.querySelector('#quote-addons-total');
 const whatsappNumber = '254727622603';
 const units = Object.fromEntries(Array.from(unitType.options, (option) => [
     option.value,
@@ -126,6 +131,11 @@ function updateCurrencyDisplays() {
 
     document.querySelectorAll('.suite-price[data-kes]').forEach((price) => {
         price.querySelector('.price-amount').textContent = formatMoney(Number(price.dataset.kes));
+    });
+
+    document.querySelectorAll('.addon-price[data-kes]').forEach((price) => {
+        const amount = formatMoney(Number(price.dataset.kes));
+        price.textContent = price.textContent.includes('/ week') ? `${amount} / week` : amount;
     });
 
     Array.from(unitType.options).forEach((option) => {
@@ -165,9 +175,67 @@ function getStayDetails() {
     const unit = units[unitType.value];
     // Apply the best single long-stay tier; discounts do not stack.
     const discount = nights >= 28 ? 0.2 : nights >= 7 ? 0.1 : 0;
-    const total = Math.round(unit.rate * nights * (1 - discount));
+    const baseTotal = unit.rate * nights;
+    const discountAmount = Math.round(baseTotal * discount);
+    const addons = getSelectedAddons(nights);
+    const addonsTotal = addons.reduce((total, addon) => total + addon.total, 0);
+    const total = baseTotal - discountAmount + addonsTotal;
 
-    return { unit, nights, discount, total };
+    return { unit, nights, discount, baseTotal, discountAmount, addons, addonsTotal, total };
+}
+
+function getSelectedAddons(nights) {
+    return addonCheckboxes.filter((checkbox) => checkbox.checked).map((checkbox) => {
+        const isWeekly = checkbox.dataset.billing === 'weekly';
+        const quantity = isWeekly ? (nights > 0 ? Math.ceil(nights / 7) : null) : 1;
+
+        return {
+            name: checkbox.dataset.addonName,
+            rate: Number(checkbox.dataset.kes),
+            quantity,
+            isWeekly,
+            total: quantity === null ? null : Number(checkbox.dataset.kes) * quantity
+        };
+    });
+}
+
+function renderQuote(details) {
+    quoteSubtotal.textContent = details ? formatMoney(details.baseTotal) : '—';
+    quoteDiscount.textContent = details ? `−${formatMoney(details.discountAmount)}` : '—';
+    quoteAddonLines.replaceChildren();
+
+    const addons = details ? details.addons : getSelectedAddons(0);
+    addons.forEach((addon) => {
+        const line = document.createElement('div');
+        const name = document.createElement('span');
+        const amount = document.createElement('strong');
+        const quantityLabel = addon.isWeekly
+            ? addon.quantity === null ? ' (per week)' : ` (${addon.quantity} ${addon.quantity === 1 ? 'week' : 'weeks'})`
+            : ' (one-time)';
+
+        line.className = 'quote-addon-line';
+        name.textContent = `${addon.name}${quantityLabel}`;
+        amount.textContent = addon.total === null
+            ? `${formatMoney(addon.rate)} / week`
+            : formatMoney(addon.total);
+        line.append(name, amount);
+        quoteAddonLines.append(line);
+    });
+
+    if (!addons.length) {
+        const emptyLine = document.createElement('div');
+        emptyLine.className = 'quote-addon-line';
+        emptyLine.textContent = 'No optional add-ons selected';
+        quoteAddonLines.append(emptyLine);
+    }
+
+    if (details) {
+        quoteAddonsTotal.textContent = formatMoney(details.addonsTotal);
+    } else {
+        const fixedAddonsTotal = addons.reduce((total, addon) => total + (addon.isWeekly ? 0 : addon.rate), 0);
+        const weeklyAddonSelected = addons.some((addon) => addon.isWeekly);
+        quoteAddonsTotal.textContent = weeklyAddonSelected ? 'Select dates' : formatMoney(fixedAddonsTotal);
+    }
 }
 
 function updateEstimate() {
@@ -185,6 +253,7 @@ function updateEstimate() {
     if (!details) {
         estimateTotal.textContent = '—';
         estimateHint.textContent = 'Choose your dates to see your stay total.';
+        renderQuote(null);
         return;
     }
 
@@ -193,10 +262,12 @@ function updateEstimate() {
         : ' · Stay 7+ nights to save 10%, or 28+ nights to save 20%';
     estimateTotal.textContent = formatMoney(details.total);
     estimateHint.textContent = `${details.nights} ${details.nights === 1 ? 'night' : 'nights'} · ${formatMoney(details.unit.rate)} / night${discountMessage}`;
+    renderQuote(details);
 }
 
 unitType.addEventListener('change', updateEstimate);
 guestCount.addEventListener('change', updateEstimate);
+addonCheckboxes.forEach((checkbox) => checkbox.addEventListener('change', updateEstimate));
 checkin.addEventListener('change', () => {
     if (checkin.value) {
         const earliestCheckout = new Date(`${checkin.value}T00:00:00Z`);
@@ -237,8 +308,15 @@ bookingForm.addEventListener('submit', (event) => {
     }
 
     const discountLine = details.discount
-        ? `Long-stay discount: ${Math.round(details.discount * 100)}%`
+        ? `Long-stay discount: ${Math.round(details.discount * 100)}% (${formatMessageMoney(details.discountAmount)} off)`
         : 'Long-stay discount: Not applicable';
+    const includedPerks = Array.from(document.querySelectorAll('.perk-included .perk-name'), (perk) => perk.textContent.trim());
+    const addonLines = details.addons.length
+        ? details.addons.map((addon) => {
+            const quantityLabel = addon.isWeekly ? ` (${addon.quantity} ${addon.quantity === 1 ? 'week' : 'weeks'})` : ' (one-time)';
+            return `- ${addon.name}${quantityLabel}: ${formatMessageMoney(addon.total)}`;
+        })
+        : ['- None selected'];
     const message = [
         'Hello The Acacia Suites, I would like to enquire about a stay.',
         `Apartment: ${details.unit.name}`,
@@ -246,9 +324,13 @@ bookingForm.addEventListener('submit', (event) => {
         `Check-out: ${checkout.value}`,
         `Total nights: ${details.nights}`,
         `Guests: ${guestCount.value}`,
+        'Base stay: ' + formatMessageMoney(details.baseTotal),
         `${discountLine}`,
+        `Selected add-ons:\n${addonLines.join('\n')}`,
+        `Add-ons subtotal: ${formatMessageMoney(details.addonsTotal)}`,
         `Nightly rate: ${formatMessageMoney(details.unit.rate)}`,
-        `Estimated total: ${formatMessageMoney(details.total)}`
+        `Estimated total: ${formatMessageMoney(details.total)}`,
+        `Included corporate essentials:\n${includedPerks.map((perk) => `- ${perk} (Included)`).join('\n')}`
     ].join('\n');
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     const whatsappLink = document.createElement('a');
