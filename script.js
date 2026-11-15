@@ -112,6 +112,15 @@ suiteMoodButtons.forEach((button) => {
     });
 });
 
+const infrastructureStatusTrigger = document.querySelector('.infrastructure-status-trigger');
+const infrastructureStatusDetails = document.querySelector('#infrastructure-details');
+
+infrastructureStatusTrigger.addEventListener('click', () => {
+    const isExpanded = infrastructureStatusTrigger.getAttribute('aria-expanded') === 'true';
+    infrastructureStatusTrigger.setAttribute('aria-expanded', String(!isExpanded));
+    infrastructureStatusDetails.hidden = isExpanded;
+});
+
 menuToggle.addEventListener('click', () => {
     const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
     menuToggle.setAttribute('aria-expanded', String(!isExpanded));
