@@ -18,6 +18,11 @@
             <span class="brand-mark" aria-hidden="true">A</span>
             <span class="brand-name">THE ACACIA SUITES<span>NAIROBI · KENYA</span></span>
         </a>
+        <div class="currency-switch" role="group" aria-label="Choose display currency">
+            <button type="button" data-currency="KES" aria-pressed="true">KES</button>
+            <button type="button" data-currency="USD" aria-pressed="false">USD</button>
+            <button type="button" data-currency="EUR" aria-pressed="false">EUR</button>
+        </div>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open navigation">
             <span></span><span></span>
         </button>
@@ -84,30 +89,30 @@
                     <p>Thoughtfully furnished apartments for a night, a month, or all the time in between.</p>
                 </div>
                 <div class="suite-grid">
-                    <article class="suite-card">
+                    <article class="suite-card" data-kes="6500">
                         <div class="suite-photo studio-photo" role="img" aria-label="Bright and inviting executive studio apartment"></div>
                         <div class="suite-card-body">
-                            <div class="suite-heading"><div><span class="suite-index">01 / STUDIO</span><h3>Executive Studio</h3></div><span class="suite-price">KES 6,500<span> / night</span></span></div>
+                            <div class="suite-heading"><div><span class="suite-index">01 / STUDIO</span><h3>Executive Studio</h3></div><span class="suite-price" data-kes="6500"><span class="price-amount">KES 6,500</span><span> / night</span></span></div>
                             <p class="suite-description">An inviting, beautifully balanced space for solo travellers and city breaks.</p>
                             <div class="suite-specs"><span>32 m²</span><span>1 king bed</span><span>2 guests</span></div>
                             <p class="suite-amenities">Kitchenette · Workspace · Wi-Fi</p>
                             <a class="suite-link" href="#availability" data-unit="studio">Explore this suite <span aria-hidden="true">↗</span></a>
                         </div>
                     </article>
-                    <article class="suite-card">
+                    <article class="suite-card" data-kes="9500">
                         <div class="suite-photo one-bed-photo" role="img" aria-label="Relaxed and spacious one-bedroom apartment"></div>
                         <div class="suite-card-body">
-                            <div class="suite-heading"><div><span class="suite-index">02 / ONE BEDROOM</span><h3>1-Bedroom Suite</h3></div><span class="suite-price">KES 9,500<span> / night</span></span></div>
+                            <div class="suite-heading"><div><span class="suite-index">02 / ONE BEDROOM</span><h3>1-Bedroom Suite</h3></div><span class="suite-price" data-kes="9500"><span class="price-amount">KES 9,500</span><span> / night</span></span></div>
                             <p class="suite-description">A little more room to work, unwind, and feel entirely at home.</p>
                             <div class="suite-specs"><span>54 m²</span><span>1 king bed</span><span>2 guests</span></div>
                             <p class="suite-amenities">Full kitchen · Lounge · Workspace</p>
                             <a class="suite-link" href="#availability" data-unit="one-bedroom">Explore this suite <span aria-hidden="true">↗</span></a>
                         </div>
                     </article>
-                    <article class="suite-card">
+                    <article class="suite-card" data-kes="14000">
                         <div class="suite-photo two-bed-photo" role="img" aria-label="Elegant two-bedroom residence with generous living space"></div>
                         <div class="suite-card-body">
-                            <div class="suite-heading"><div><span class="suite-index">03 / TWO BEDROOMS</span><h3>2-Bedroom Residence</h3></div><span class="suite-price">KES 14,000<span> / night</span></span></div>
+                            <div class="suite-heading"><div><span class="suite-index">03 / TWO BEDROOMS</span><h3>2-Bedroom Residence</h3></div><span class="suite-price" data-kes="14000"><span class="price-amount">KES 14,000</span><span> / night</span></span></div>
                             <p class="suite-description">Generous space for family, colleagues, or a longer Nairobi stay.</p>
                             <div class="suite-specs"><span>86 m²</span><span>2 king beds</span><span>4 guests</span></div>
                             <p class="suite-amenities">Full kitchen · Dining · Two bathrooms</p>
@@ -128,9 +133,9 @@
                     <label class="form-field">
                         Apartment type
                         <select name="unit" id="unit-type" required>
-                            <option value="studio">Executive Studio — KES 6,500 / night</option>
-                            <option value="one-bedroom">1-Bedroom Suite — KES 9,500 / night</option>
-                            <option value="two-bedroom">2-Bedroom Residence — KES 14,000 / night</option>
+                            <option value="studio" data-unit-name="Executive Studio" data-kes="6500" data-capacity="2">Executive Studio — KES 6,500 / night</option>
+                            <option value="one-bedroom" data-unit-name="1-Bedroom Suite" data-kes="9500" data-capacity="2">1-Bedroom Suite — KES 9,500 / night</option>
+                            <option value="two-bedroom" data-unit-name="2-Bedroom Residence" data-kes="14000" data-capacity="4">2-Bedroom Residence — KES 14,000 / night</option>
                         </select>
                     </label>
                     <div class="form-row">

@@ -1,5 +1,31 @@
 const menuToggle = document.querySelector('.menu-toggle');
 const primaryNav = document.querySelector('#primary-nav');
+const currencyButtons = Array.from(document.querySelectorAll('[data-currency]'));
+const currencies = {
+    KES: { rate: 1, prefix: 'KES ' },
+    USD: { rate: 130, prefix: '$' },
+    EUR: { rate: 140, prefix: '€' }
+};
+const currencyStorageKey = 'acacia-suites-currency';
+let selectedCurrency = 'KES';
+
+try {
+    const savedCurrency = localStorage.getItem(currencyStorageKey);
+    if (savedCurrency && currencies[savedCurrency]) selectedCurrency = savedCurrency;
+} catch {
+    // The switcher still works when browser storage is unavailable.
+}
+
+function formatMoney(kesAmount) {
+    const currency = currencies[selectedCurrency];
+    const convertedAmount = Math.round(kesAmount / currency.rate);
+    return `${currency.prefix}${convertedAmount.toLocaleString('en-US')}`;
+}
+
+function formatMessageMoney(kesAmount) {
+    const amount = formatMoney(kesAmount);
+    return selectedCurrency === 'KES' ? amount : `${amount} ${selectedCurrency}`;
+}
 
 const heroSlides = Array.from(document.querySelectorAll('.hero-slide'));
 const heroIndicators = Array.from(document.querySelectorAll('.hero-indicator'));
@@ -84,11 +110,42 @@ const estimateTotal = document.querySelector('#estimate-total');
 const estimateHint = document.querySelector('#estimate-hint');
 const bookingNote = document.querySelector('#booking-note');
 const whatsappNumber = '254727622603';
-const units = {
-    studio: { name: 'Executive Studio', rate: 6500, capacity: 2 },
-    'one-bedroom': { name: '1-Bedroom Suite', rate: 9500, capacity: 2 },
-    'two-bedroom': { name: '2-Bedroom Residence', rate: 14000, capacity: 4 }
-};
+const units = Object.fromEntries(Array.from(unitType.options, (option) => [
+    option.value,
+    {
+        name: option.dataset.unitName,
+        rate: Number(option.dataset.kes),
+        capacity: Number(option.dataset.capacity)
+    }
+]));
+
+function updateCurrencyDisplays() {
+    currencyButtons.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.currency === selectedCurrency));
+    });
+
+    document.querySelectorAll('.suite-price[data-kes]').forEach((price) => {
+        price.querySelector('.price-amount').textContent = formatMoney(Number(price.dataset.kes));
+    });
+
+    Array.from(unitType.options).forEach((option) => {
+        option.textContent = `${option.dataset.unitName} — ${formatMoney(Number(option.dataset.kes))} / night`;
+    });
+
+    updateEstimate();
+}
+
+currencyButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        selectedCurrency = button.dataset.currency;
+        try {
+            localStorage.setItem(currencyStorageKey, selectedCurrency);
+        } catch {
+            // Currency conversion remains available for this page view.
+        }
+        updateCurrencyDisplays();
+    });
+});
 
 const today = new Date();
 const localToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000)
@@ -134,8 +191,8 @@ function updateEstimate() {
     const discountMessage = details.discount
         ? ` · ${Math.round(details.discount * 100)}% long-stay saving applied`
         : ' · Stay 7+ nights to save 10%, or 28+ nights to save 20%';
-    estimateTotal.textContent = `KES ${details.total.toLocaleString('en-KE')}`;
-    estimateHint.textContent = `${details.nights} ${details.nights === 1 ? 'night' : 'nights'}${discountMessage}`;
+    estimateTotal.textContent = formatMoney(details.total);
+    estimateHint.textContent = `${details.nights} ${details.nights === 1 ? 'night' : 'nights'} · ${formatMoney(details.unit.rate)} / night${discountMessage}`;
 }
 
 unitType.addEventListener('change', updateEstimate);
@@ -190,7 +247,8 @@ bookingForm.addEventListener('submit', (event) => {
         `Total nights: ${details.nights}`,
         `Guests: ${guestCount.value}`,
         `${discountLine}`,
-        `Estimated total: KES ${details.total.toLocaleString('en-KE')}`
+        `Nightly rate: ${formatMessageMoney(details.unit.rate)}`,
+        `Estimated total: ${formatMessageMoney(details.total)}`
     ].join('\n');
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
     const whatsappLink = document.createElement('a');
@@ -204,4 +262,4 @@ bookingForm.addEventListener('submit', (event) => {
     bookingNote.append(whatsappLink);
 });
 
-updateEstimate();
+updateCurrencyDisplays();

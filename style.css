@@ -59,6 +59,10 @@ button, a, input, select { -webkit-tap-highlight-color: transparent; }
     letter-spacing: .12em;
 }
 .brand-name span { font: 600 8px/1 var(--sans); letter-spacing: .2em; }
+.currency-switch { display: flex; flex: 0 0 auto; align-items: center; gap: 2px; padding: 3px; border-radius: 999px; background: var(--charcoal); }
+.currency-switch button { min-width: 35px; min-height: 28px; padding: 0 8px; border: 0; border-radius: 999px; background: transparent; color: rgba(255, 253, 248, .72); cursor: pointer; font-size: 8px; font-weight: 700; transition: background .2s ease, color .2s ease; }
+.currency-switch button[aria-pressed="true"] { background: var(--gold); color: var(--charcoal); }
+.currency-switch button:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
 .primary-nav { display: flex; align-items: center; gap: clamp(24px, 3vw, 46px); font-size: 11px; font-weight: 600; }
 .primary-nav > a:not(.nav-cta), .text-link, .suite-link { transition: color .2s ease; }
 .primary-nav > a:not(.nav-cta):hover, .text-link:hover, .suite-link:hover { color: var(--terracotta); }
@@ -281,6 +285,7 @@ button, a, input, select { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 700px) {
     html { scroll-padding-top: 70px; }
     .site-header { min-height: 70px; padding: 0 6%; }
+    .currency-switch button { min-width: 31px; min-height: 27px; padding: 0 6px; font-size: 7px; }
     .menu-toggle {
         width: 42px;
         height: 42px;
@@ -370,6 +375,7 @@ button, a, input, select { -webkit-tap-highlight-color: transparent; }
 
 @media (max-width: 390px) {
     .brand-name { font-size: 10px; }
+    .currency-switch button { min-width: 28px; padding: 0 5px; }
     .suite-heading { display: block; }
     .suite-price { margin-top: 9px; }
     .form-row { gap: 9px; }
