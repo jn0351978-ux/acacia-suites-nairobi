@@ -86,6 +86,32 @@ radarModes.forEach((button) => {
     });
 });
 
+const suitesSection = document.querySelector('.suites-section');
+const suiteMoodButtons = Array.from(document.querySelectorAll('[data-suite-mood]'));
+const suiteMoodBadges = Array.from(document.querySelectorAll('.suite-mood-badge'));
+const suitePhotos = Array.from(document.querySelectorAll('.suite-photo'));
+
+suiteMoodButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        const isEvening = button.dataset.suiteMood === 'evening';
+        suitesSection.classList.toggle('is-evening', isEvening);
+        suiteMoodButtons.forEach((moodButton) => {
+            const isActive = moodButton === button;
+            moodButton.classList.toggle('is-active', isActive);
+            moodButton.setAttribute('aria-pressed', String(isActive));
+        });
+        suiteMoodBadges.forEach((badge) => {
+            badge.textContent = isEvening
+                ? 'Warm Evening Ambiance & Blackout Comfort'
+                : 'Natural Nairobi Sunlight';
+        });
+        suitePhotos.forEach((photo) => {
+            const suiteName = photo.getAttribute('aria-label').replace(/^(Bright daylight in |Warm evening ambiance in )/, '');
+            photo.setAttribute('aria-label', `${isEvening ? 'Warm evening ambiance in ' : 'Bright daylight in '}${suiteName}`);
+        });
+    });
+});
+
 menuToggle.addEventListener('click', () => {
     const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
     menuToggle.setAttribute('aria-expanded', String(!isExpanded));

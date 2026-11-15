@@ -86,11 +86,20 @@
                         <span class="eyebrow">FIND YOUR FIT</span>
                         <h2>Space to make<br><em>your own.</em></h2>
                     </div>
-                    <p>Thoughtfully furnished apartments for a night, a month, or all the time in between.</p>
+                    <div class="suite-intro-actions">
+                        <p>Thoughtfully furnished apartments for a night, a month, or all the time in between.</p>
+                        <div class="suite-mood-toggle" role="group" aria-label="Choose suite lighting mood">
+                            <button class="is-active" type="button" data-suite-mood="daylight" aria-pressed="true">☀ Daylight</button>
+                            <button type="button" data-suite-mood="evening" aria-pressed="false">☾ Evening Mood</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="suite-grid">
                     <article class="suite-card" data-kes="6500">
-                        <div class="suite-photo studio-photo" role="img" aria-label="Bright and inviting executive studio apartment"></div>
+                        <div class="suite-photo studio-photo" role="img" aria-label="Bright daylight in an executive studio apartment">
+                            <span class="suite-photo-layer suite-photo-day"></span><span class="suite-photo-layer suite-photo-evening"></span>
+                            <span class="suite-mood-badge">Natural Nairobi Sunlight</span>
+                        </div>
                         <div class="suite-card-body">
                             <div class="suite-heading"><div><span class="suite-index">01 / STUDIO</span><h3>Executive Studio</h3></div><span class="suite-price" data-kes="6500"><span class="price-amount">KES 6,500</span><span> / night</span></span></div>
                             <p class="suite-description">An inviting, beautifully balanced space for solo travellers and city breaks.</p>
@@ -100,7 +109,10 @@
                         </div>
                     </article>
                     <article class="suite-card" data-kes="9500">
-                        <div class="suite-photo one-bed-photo" role="img" aria-label="Relaxed and spacious one-bedroom apartment"></div>
+                        <div class="suite-photo one-bed-photo" role="img" aria-label="Bright daylight in a relaxed one-bedroom apartment">
+                            <span class="suite-photo-layer suite-photo-day"></span><span class="suite-photo-layer suite-photo-evening"></span>
+                            <span class="suite-mood-badge">Natural Nairobi Sunlight</span>
+                        </div>
                         <div class="suite-card-body">
                             <div class="suite-heading"><div><span class="suite-index">02 / ONE BEDROOM</span><h3>1-Bedroom Suite</h3></div><span class="suite-price" data-kes="9500"><span class="price-amount">KES 9,500</span><span> / night</span></span></div>
                             <p class="suite-description">A little more room to work, unwind, and feel entirely at home.</p>
@@ -110,7 +122,10 @@
                         </div>
                     </article>
                     <article class="suite-card" data-kes="14000">
-                        <div class="suite-photo two-bed-photo" role="img" aria-label="Elegant two-bedroom residence with generous living space"></div>
+                        <div class="suite-photo two-bed-photo" role="img" aria-label="Bright daylight in a spacious two-bedroom residence">
+                            <span class="suite-photo-layer suite-photo-day"></span><span class="suite-photo-layer suite-photo-evening"></span>
+                            <span class="suite-mood-badge">Natural Nairobi Sunlight</span>
+                        </div>
                         <div class="suite-card-body">
                             <div class="suite-heading"><div><span class="suite-index">03 / TWO BEDROOMS</span><h3>2-Bedroom Residence</h3></div><span class="suite-price" data-kes="14000"><span class="price-amount">KES 14,000</span><span> / night</span></span></div>
                             <p class="suite-description">Generous space for family, colleagues, or a longer Nairobi stay.</p>
