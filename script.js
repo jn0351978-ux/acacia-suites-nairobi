@@ -36,6 +36,30 @@ heroIndicators.forEach((indicator, index) => {
 document.addEventListener('visibilitychange', startHeroTimer);
 startHeroTimer();
 
+const radarModes = Array.from(document.querySelectorAll('.radar-mode'));
+const radarTimeValues = Array.from(document.querySelectorAll('.radar-time-value'));
+let radarUpdateTimer;
+
+radarModes.forEach((button) => {
+    button.addEventListener('click', () => {
+        const mode = button.dataset.timeMode;
+        radarModes.forEach((modeButton) => {
+            const isActive = modeButton === button;
+            modeButton.classList.toggle('is-active', isActive);
+            modeButton.setAttribute('aria-pressed', String(isActive));
+        });
+
+        radarTimeValues.forEach((timeValue) => timeValue.classList.add('is-changing'));
+        window.clearTimeout(radarUpdateTimer);
+        radarUpdateTimer = window.setTimeout(() => {
+            radarTimeValues.forEach((timeValue) => {
+                timeValue.textContent = timeValue.dataset[`${mode}Time`];
+                timeValue.classList.remove('is-changing');
+            });
+        }, 160);
+    });
+});
+
 menuToggle.addEventListener('click', () => {
     const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
     menuToggle.setAttribute('aria-expanded', String(!isExpanded));

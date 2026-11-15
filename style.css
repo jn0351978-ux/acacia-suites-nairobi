@@ -212,6 +212,29 @@ button, a, input, select { -webkit-tap-highlight-color: transparent; }
 .amenity h3 { margin: 0 0 9px; font: 500 19px var(--serif); }
 .amenity p { max-width: 220px; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.8; }
 
+.neighborhood-radar { padding: 82px 0 76px; background: var(--charcoal); color: var(--paper); }
+.radar-heading-row { display: flex; align-items: end; justify-content: space-between; gap: 36px; margin-bottom: 36px; }
+.radar-heading { max-width: 520px; }
+.radar-heading h2 { margin: 15px 0 11px; font: 400 clamp(36px, 4.5vw, 54px)/1.08 var(--serif); }
+.radar-heading h2 em { color: var(--gold); font-weight: 400; }
+.radar-heading > p { margin: 0; color: rgba(255, 253, 248, .68); font-size: 11px; line-height: 1.8; }
+.radar-mode-wrap { flex: 0 0 auto; }
+.radar-mode-label { display: block; margin: 0 0 9px 3px; color: #e4d7c0; font-size: 8px; font-weight: 700; letter-spacing: .16em; }
+.radar-mode-toggle { display: inline-flex; gap: 3px; padding: 4px; border: 1px solid rgba(255, 253, 248, .19); border-radius: 999px; background: rgba(255, 253, 248, .04); }
+.radar-mode { min-height: 39px; padding: 0 15px; border: 0; border-radius: 999px; background: transparent; color: rgba(255, 253, 248, .7); cursor: pointer; font-size: 9px; font-weight: 600; transition: background .2s ease, color .2s ease; }
+.radar-mode span { color: inherit; font-size: 8px; }
+.radar-mode.is-active { background: var(--gold); color: var(--charcoal); }
+.radar-mode:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
+.radar-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid rgba(255, 253, 248, .18); border-left: 1px solid rgba(255, 253, 248, .18); }
+.radar-card { min-width: 0; min-height: 190px; padding: 23px 24px 21px; border-right: 1px solid rgba(255, 253, 248, .18); border-bottom: 1px solid rgba(255, 253, 248, .18); }
+.radar-category { color: var(--gold); font-size: 8px; font-weight: 700; letter-spacing: .16em; }
+.radar-card h3 { min-height: 48px; margin: 12px 0 5px; font: 500 21px/1.2 var(--serif); }
+.radar-distance { min-height: 16px; margin: 0 0 16px; color: rgba(255, 253, 248, .62); font-size: 9px; line-height: 1.6; }
+.radar-time { min-height: 28px; display: inline-flex; align-items: center; padding: 0 11px; border: 1px solid rgba(201, 164, 108, .52); color: #e4c995; font-size: 9px; font-weight: 700; }
+.radar-time-value { display: inline-block; transition: opacity .16s ease, transform .16s ease; }
+.radar-time-value.is-changing { opacity: 0; transform: translateY(3px); }
+.radar-note { margin: 15px 0 0; color: rgba(255, 253, 248, .48); font-size: 8px; line-height: 1.6; }
+
 .location-section { min-height: 490px; position: relative; display: flex; align-items: center; overflow: hidden; color: var(--paper); background: #3e403a; }
 .location-image { background: url("https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=2000&q=85") center 52% / cover; }
 .location-shade { background: linear-gradient(90deg, rgba(31, 33, 30, .84), rgba(31, 33, 30, .68) 57%, rgba(31, 33, 30, .44)); }
@@ -250,6 +273,9 @@ button, a, input, select { -webkit-tap-highlight-color: transparent; }
     .suite-price { display: inline-block; margin-top: 9px; }
     .booking-panel { width: 90%; padding-left: 7%; }
     .location-content { gap: 6%; }
+    .radar-heading-row { align-items: start; flex-direction: column; gap: 24px; }
+    .radar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .radar-card { min-height: 185px; padding: 20px 17px; }
 }
 
 @media (max-width: 700px) {
@@ -320,6 +346,18 @@ button, a, input, select { -webkit-tap-highlight-color: transparent; }
     .amenity:nth-child(3) { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
     .amenity:nth-child(4) { border-top: 1px solid var(--line); }
     .amenity h3 { font-size: 17px; }
+    .neighborhood-radar { padding: 65px 0 58px; }
+    .radar-heading-row { gap: 23px; margin-bottom: 26px; }
+    .radar-heading h2 { font-size: clamp(35px, 9vw, 46px); }
+    .radar-mode-wrap { width: 100%; }
+    .radar-mode-toggle { width: 100%; }
+    .radar-mode { flex: 1; padding: 0 9px; font-size: 8px; }
+    .radar-mode span { font-size: 7px; }
+    .radar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .radar-card { min-height: 178px; padding: 17px 13px; }
+    .radar-card h3 { min-height: 50px; font-size: 18px; }
+    .radar-distance { font-size: 8px; }
+    .radar-time { padding: 0 8px; font-size: 8px; }
     .location-section { min-height: 0; }
     .location-image { background-position: 57% center; }
     .location-shade { background: rgba(31, 33, 30, .78); }
